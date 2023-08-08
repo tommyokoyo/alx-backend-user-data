@@ -1,3 +1,5 @@
 #ignore the venv folder
 SimpleAPI/
 venv/
+.idea
+snyk-linux
