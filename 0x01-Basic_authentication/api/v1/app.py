@@ -6,7 +6,6 @@ from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
-import os
 
 
 app = Flask(__name__)
@@ -53,6 +52,7 @@ def not_found(error) -> str:
         Returns: JSON{"error:Not found"}
     """
     return jsonify({"error": "Not found"}), 404
+
 
 @app.before_request
 def before_request() -> str:
