@@ -4,6 +4,7 @@
 """
 from flask import request
 from typing import List, TypeVar
+import fnmatch
 
 
 class Auth:
@@ -16,7 +17,17 @@ class Auth:
             Require Auth
             Return: bool True is authenticated
         """
-        return False
+        if path is None or excluded_paths is None:
+            return True
+        elif path[-1] == '/':
+            if path in excluded_paths:
+                return False
+        else:
+            path += '/'
+            if path in excluded_paths:
+                return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
