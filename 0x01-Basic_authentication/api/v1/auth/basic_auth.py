@@ -5,6 +5,8 @@
 import binascii
 from api.v1.auth.auth import Auth
 from base64 import b64decode
+from typing import TypeVar, List
+from api.v1.views.users import User
 
 
 class BasicAuth(Auth):
@@ -59,3 +61,24 @@ class BasicAuth(Auth):
             return user_email, user_pass
         else:
             return 'None', 'None'
+
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        """
+            Returns a user instance based on his email
+            and password
+            return: User instance
+        """
+        if (user_email is None or type(user_email) is not str
+                and user_pwd is None or type(user_pwd) is not str):
+            return None
+        try:
+            users = User.search({"email": user_email})
+        except Exception:
+            return None
+
+        for user in users:
+            if user.is_valid_password(user_pwd):
+                return user
+
+        return None
