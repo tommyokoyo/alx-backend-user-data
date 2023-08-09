@@ -27,10 +27,10 @@ class BasicAuth(Auth):
         else:
             return authorization_header.split(' ')[1]
 
-    def decode_base64_authorization_header(self,
-                                           base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(
+            self, base64_authorization_header: str) -> str:
         """
-            Decodes the base64 authorizatio header
+            Decodes the base64 authorization header
             return: decoded value of Base64
         """
         if (base64_authorization_header is None or type
