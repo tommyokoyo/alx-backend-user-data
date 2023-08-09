@@ -59,7 +59,8 @@ def before_request() -> str:
     """
         Executed before a request is handled
     """
-    ex_path = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    ex_path = ['/api/v1/status/', '/api/v1/unauthorized/',
+               '/api/v1/forbidden/']
     if auth is None:
         pass
     elif not auth.require_auth(request.path, ex_path):
