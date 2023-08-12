@@ -99,11 +99,13 @@ class BasicAuth(Auth):
         if auth_header is None:
             pass
         else:
-            auth_header_extract: str = self.extract_base64_authorization_header(auth_header)
+            auth_header_extract: str = (
+                self.extract_base64_authorization_header(auth_header))
             if auth_header_extract is None:
                 return None
             else:
-                decoded_auth: str = self.decode_base64_authorization_header(auth_header_extract)
+                decoded_auth: str = (
+                    self.decode_base64_authorization_header(auth_header_extract))
                 if decoded_auth is None:
                     return None
                 else:
@@ -113,4 +115,5 @@ class BasicAuth(Auth):
                     if user_email is None or user_password is None:
                         return None
                     else:
-                        return self.user_object_from_credentials(user_email, user_password)
+                        return (
+                            self.user_object_from_credentials(user_email, user_password))
