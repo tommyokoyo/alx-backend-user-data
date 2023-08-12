@@ -19,6 +19,10 @@ class BasicAuth(Auth):
         """
             Extracts the base64 part of theAuthorization
             header for a basic authentication
+            Args:
+                authorization_header
+            return:
+                hashed base64 auth
         """
         if authorization_header is None:
             return None
@@ -82,3 +86,31 @@ class BasicAuth(Auth):
                 return user
 
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+            overloads Auth and retrives the User insatance for a request
+            Args:
+                request: current user
+            Return:
+                Current User info or None
+        """
+        auth_header: str = self.authorization_header(request)
+        if auth_header is None:
+            pass
+        else:
+            auth_header_extract: str = self.extract_base64_authorization_header(auth_header)
+            if auth_header_extract is None:
+                return None
+            else:
+                decoded_auth: str = self.decode_base64_authorization_header(auth_header_extract)
+                if decoded_auth is None:
+                    return None
+                else:
+                    user_email: str
+                    user_password: str
+                    user_email, user_password = self.extract_user_credentials(decoded_auth)
+                    if user_email is None or user_password is None:
+                        return None
+                    else:
+                        return self.user_object_from_credentials(user_email, user_password)
