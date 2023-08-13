@@ -3,7 +3,9 @@
     Session Authentication Module
 """
 from api.v1.auth.auth import Auth
+from api.v1.views.users import User
 import uuid
+from typing import TypeVar
 
 
 class SessionAuth(Auth):
@@ -41,3 +43,8 @@ class SessionAuth(Auth):
         else:
             user_id: str = self.user_id_by_session_id.get(session_id)
             return user_id
+
+    def current_user(self, request=None):
+        session_cookie = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_cookie)
+        return User.get(user_id)
