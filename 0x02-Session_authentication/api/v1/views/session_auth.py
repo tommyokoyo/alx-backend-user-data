@@ -36,3 +36,12 @@ def login():
                     return response
                 else:
                     return jsonify({"error": "wrong password"}), 401
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout():
+    from api.v1.app import auth
+    to_delete_token = auth.destroy_session(request)
+    if to_delete_token is False:
+        abort(404)
+    else:
+        return jsonify({}), 200
